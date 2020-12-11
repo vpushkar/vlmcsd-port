@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# $FreeBSD: head/sysutils/vlmcsd/files/vlmcsd.in 340872 2020-01-28 00:14:07Z vpushkar $
+#
+# PROVIDE: vlmcsd
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+#
+# Add the following line to /etc/rc.conf to enable vlmcsd:
+#
+# vlmcsd_enable="YES"
+# vlmcsd_flags="<set as needed>"
+
+. /etc/rc.subr
+
+name="vlmcsd"
+rcvar=${name}_enable
+
+load_rc_config $name
+
+eval ": \${${name}_pidfile:=\"/var/run/${name}.pid\"}"
+pidfile=${vlmcsd_pidfile}
+
+command="%%PREFIX%%/sbin/${name}"
+command_args="-p $pidfile"
+
+run_rc_command "$1"
